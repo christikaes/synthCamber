@@ -1,6 +1,6 @@
+Notes = new Mongo.Collection("notes");
+
 if (Meteor.isClient) {
-  // counter starts at 0
-  Session.setDefault('counter', 0);
 
   var saw = new Wad({source  : 'sawtooth'});
 
@@ -11,18 +11,24 @@ if (Meteor.isClient) {
   });
 
   Template.hello.events({
-    'click button': function () {
-      // increment the counter when button is clicked
-      Session.set('counter', Session.get('counter') + 1);
-
-    },
     'mousedown .play': function(){
-      saw.play();
+      var id = Notes.insert({pitch: (Math.random()*(600-60) + 60)});
+      Session.set('id', id);
     },
     'mouseup .play': function(){
-      saw.stop();
+      Notes.remove(Session.get('id'))
     }
   });
+
+  Notes.find().observeChanges({
+    added: function (id, fields) {
+      saw.play({pitch: fields.pitch, label: id});
+    },
+    removed: function (id) {
+      saw.stop(id);
+    }
+  });
+
 }
 
 if (Meteor.isServer) {
