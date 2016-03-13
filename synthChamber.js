@@ -11,11 +11,11 @@ if (Meteor.isClient) {
   });
 
   Template.hello.events({
-    'mousedown .play': function(){
+    'mousedown, touchstart .play': function(){
       var id = Notes.insert({pitch: (Math.random()*(600-60) + 60)});
       Session.set('id', id);
     },
-    'mouseup .play': function(){
+    'mouseup, touchend .play': function(){
       Notes.remove(Session.get('id'))
     }
   });
