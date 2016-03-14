@@ -1,5 +1,6 @@
 # synthCamber
 This is a MeteorJS project that uses the phone's accelerator and a js synthesizer library to play music collaboratively
+(The accelerator does not work currently, it plays a random note)
 
 You can see a demo of this working here: http://synthchambertest.meteor.com/
 
